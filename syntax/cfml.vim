@@ -399,17 +399,17 @@ syn keyword	cfScriptKeyword		contained interface param pageencoding property ret
 syn keyword	cfScriptSpecial		contained required extends
 
 
-syn cluster	cfScriptCluster	contains=cfScriptParen,cfScriptLineComment,cfScriptComment,cfScriptStringD,cfScriptStringS,cfScriptFunction,cfScriptNumber,cfScriptRegexpString,cfScriptBoolean,cfScriptBraces,cfHashRegion,cfFunctionName,cfDeprecatedFunction,cfScope,@cfOperatorCluster,cfScriptConditional,cfScriptRepeat,cfScriptBranch,@cfExpressionCluster,cfScriptStatement,cfScriptSpecial,cfScriptKeyword
+syn cluster cfScriptCluster contains=cfScriptParen,cfScriptLineComment,cfScriptComment,cfScriptStringD,cfScriptStringS,cfScriptFunction,cfScriptNumber,cfScriptRegexpString,cfScriptBoolean,cfScriptBraces,cfHashRegion,cfFunctionName,cfDeprecatedFunction,cfScope,@cfOperatorCluster,cfScriptConditional,cfScriptRepeat,cfScriptBranch,@cfExpressionCluster,cfScriptStatement,cfScriptSpecial,cfScriptKeyword
 
 " Errors caused by wrong parenthesis; skip strings
-syn region	cfScriptParen	contained transparent skip=+"[^"]*"\|'[^']*'+ start=+(+ end=+)+ contains=@cfScriptCluster
-syn match	cfScrParenError	contained +)+
+syn region  cfScriptParen   contained transparent skip=+"[^"]*"\|'[^']*'+ start=+(+ end=+)+ contains=@cfScriptCluster
+syn match   cfScrParenError contained +)+
 
-syn region	cfscriptBlock	matchgroup=NONE start="<cfscript>"	end="<\/cfscript>"me=s-1 keepend contains=@cfScriptCluster,cfscriptTag,cfScrParenError
-syn region	cfscriptTag	contained start='<cfscript' end='>' keepend contains=cfTagName,htmlTag
+syn region  cfScriptBlock   matchgroup=NONE start="<cfscript>"  end="<\/cfscript>"me=s-1 keepend contains=@cfScriptCluster,cfScriptTag,cfScrParenError
+syn region  cfScriptTag contained start='<cfscript' end='>' keepend contains=cfTagName,htmlTag
 
 " CFML
-syn cluster	cfmlCluster	contains=cfComment,@htmlTagNameCluster,@htmlPreproc,cfSetRegion,cfscriptBlock,cfOutputRegion
+syn cluster cfmlCluster contains=cfComment,@htmlTagNameCluster,@htmlPreproc,cfSetRegion,cfScriptBlock,cfOutputRegion
 
 " cfquery = sql syntax
 if exists("b:current_syntax")
@@ -420,63 +420,60 @@ if exists("b:current_syntax")
   unlet b:current_syntax
 endif
 
-syn region	cfqueryTag	contained start=+<cfquery+ end=+>+ keepend contains=cfTagName,htmlTag
-syn region	cfSqlregion	start=+<cfquery\_[^>]*>+ keepend end=+</cfquery>+me=s-1 matchgroup=NONE contains=@cfSql,cfComment,@htmlTagNameCluster,cfqueryTag,cfHashRegion
+syn region  cfqueryTag  contained start=+<cfquery+ end=+>+ keepend contains=cfTagName,htmlTag
+syn region  cfSqlregion start=+<cfquery\_[^>]*>+ keepend end=+</cfquery>+me=s-1 matchgroup=NONE contains=@cfSql,cfComment,@htmlTagNameCluster,cfqueryTag,cfHashRegion
 
 " Define the highlighting.
 command -nargs=+ CfHiLink hi def link <args>
 
 if exists("d_noinclude_html")
     " The default html-style highlighting copied from html.vim.
-    CfHiLink htmlTag		Function
-    CfHiLink htmlEndTag		Identifier
-    CfHiLink htmlArg		Type
-    CfHiLink htmlTagName		htmlStatement
-    CfHiLink htmlValue		String
-    CfHiLink htmlPreProc		PreProc
-    CfHiLink htmlString		String
-    CfHiLink htmlStatement	Statement
-    CfHiLink htmlValue		String
-    CfHiLink htmlTagError		htmlError
-    CfHiLink htmlError		Error
+    CfHiLink htmlTag        Function
+    CfHiLink htmlEndTag     Identifier
+    CfHiLink htmlArg        Type
+    CfHiLink htmlTagName    htmlStatement
+    CfHiLink htmlValue      String
+    CfHiLink htmlPreProc    PreProc
+    CfHiLink htmlString     String
+    CfHiLink htmlStatement  Statement
+    CfHiLink htmlValue      String
+    CfHiLink htmlTagError   htmlError
+    CfHiLink htmlError      Error
 endif
 
-CfHiLink cfTagName		Statement
-CfHiLink cfCustomTagName	Statement
-CfHiLink cfArg			Type
-CfHiLink cfFunctionName		Function
-CfHiLink cfHashRegion		PreProc
-CfHiLink cfComment		Comment
-CfHiLink cfCommentTodo		Todo
-CfHiLink cfOperator		Operator
-CfHiLink cfOperatorMatch	Operator
-CfHiLink cfScope		Title
-CfHiLink cfBool			Constant
-
-CfHiLink cfscriptBlock		Special
-CfHiLink cfscriptTag		htmlTag
-CfHiLink cfSetRegion		PreProc
-CfHiLink cfSetLHSRegion		htmlTag
-CfHiLink cfSetTagEnd		htmlTag
-
-CfHiLink cfScriptLineComment	Comment
-CfHiLink cfScriptComment	Comment
-CfHiLink cfScriptStringS	String
-CfHiLink cfScriptStringD	String
-CfHiLink cfScriptNumber		cfScriptValue
-CfHiLink cfScriptConditional	Conditional
-CfHiLink cfScriptRepeat		Repeat
-CfHiLink cfScriptBranch		Conditional
-CfHiLink cfScriptSpecial	Type
-CfHiLink cfScriptStatement	Statement
-CfHiLink cfScriptBraces		Function
-CfHiLink cfScriptKeyword	Function
-CfHiLink cfScriptError		Error
-CfHiLink cfDeprecatedTag	Error
-CfHiLink cfDeprecatedFunction	Error
-CfHiLink cfScrParenError	cfScriptError
-
-CfHiLink cfqueryTag		htmlTag
+CfHiLink cfComment            Comment
+CfHiLink cfScriptLineComment  Comment
+CfHiLink cfScriptComment      Comment
+CfHiLink cfCommentTodo        Todo
+CfHiLink cfFunctionName       Function
+CfHiLink cfScriptBraces       Function
+CfHiLink cfScriptStatement    Statement
+CfHiLink cfScriptStringD      String
+CfHiLink cfScriptStringS      String
+CfHiLink cfHashRegion         PreProc
+CfHiLink cfBool               Constant
+CfHiLink cfScope              Title
+CfHiLink cfScriptConditional  Conditional
+CfHiLink cfScriptRepeat       Repeat
+CfHiLink cfScriptBranch       Conditional
+CfHiLink cfTagName            Statement
+CfHiLink cfCustomTagName      Statement
+CfHiLink cfArg                Type
+CfHiLink cfOperator           Operator
+CfHiLink cfOperatorMatch      Operator
+CfHiLink cfScriptBlock        Normal
+CfHiLink cfScriptTag          htmlTag
+CfHiLink cfSetRegion          PreProc
+CfHiLink cfSetLHSRegion       htmlTag
+CfHiLink cfSetTagEnd          htmlTag
+CfHiLink cfScriptNumber       cfScriptValue
+CfHiLink cfScriptSpecial      Type
+CfHiLink cfScriptKeyword      Function
+CfHiLink cfScriptError        Error
+CfHiLink cfDeprecatedTag      Error
+CfHiLink cfDeprecatedFunction Error
+CfHiLink cfScrParenError      cfScriptError
+CfHiLink cfqueryTag           htmlTag
 
 delcommand CfHiLink
 

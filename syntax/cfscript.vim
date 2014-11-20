@@ -11,7 +11,7 @@
 syn case ignore
 
 " Comments
-syn keyword cfCommentTodo   contained TODO FIXME XXX TBD
+syn keyword cfCommentTodo   contained TODO FIXME XXX TBD WTF
 syn match   cfJavaDoc       contained /@\(.\| \)\+$/ contains=cfJavaDocAttr,cfJavaDocVal
 syn match   cfJavaDocAttr   contained /@\([a-z]\)\+/
 syn match   cfJavaDocVal    contained / \(.\)+$/
@@ -21,9 +21,9 @@ syn region  cfComment       start="/\*" end="\*/" contains=cfCommentTodo,cfJavaD
 
 " Definitions
 syn keyword cfComponent     component
-syn keyword cfFunction	    function
-syn match	  cfBraces	      "[{}\[\]]"
-syn match	  cfParens	      "[()]"
+syn keyword cfFunction      function
+syn match   cfBraces        "[{}\[\]]"
+syn match   cfParens        "[()]"
 syn keyword cfFunctionScope public private protected package
 syn keyword cfType          any array binary boolean component date
 syn keyword cfType          guid numeric query string struct uuid
@@ -45,9 +45,32 @@ syn keyword cfScope         thread url variables
 
 " Conditionals
 syn keyword cfCondition     if else switch case
-syn keyword cfCondition     is gt gte lt lte not contains
+
+" Operator strings
+" ColdFusion <=7:
+syn keyword cfOperator      xor eqv and or lt le lte gt ge gte equal eq neq not is mod contains
+syn match   cfOperatorMatch contained "+"
+syn match   cfOperatorMatch contained "\-"
+syn match   cfOperatorMatch contained "[\*\/\\\^\&][\+\-\*\/\\\^\&]\@!"
+syn match   cfOperatorMatch contained "\<\(not\_s\+\)\?equal\>"
+syn match   cfOperatorMatch contained "\<does\_s\+not\_s\+contain\>"
+syn match   cfOperatorMatch contained "\<\(greater\|less\)\_s\+than\(\_s\+or\_s\+equal\_s\+to\)\?\>"
+" ColdFusion 8:
+syn keyword cfOperator      contained imp
+syn match   cfOperatorMatch contained "[?%:!]"
+syn match   cfOperatorMatch contained "[\+\-\*\/\&]=" 
+syn match   cfOperatorMatch contained "++"
+syn match   cfOperatorMatch contained "--"
+syn match   cfOperatorMatch contained "&&"
+syn match   cfOperatorMatch contained "||"
+
+syn cluster cfOperatorCluster   contains=cfOperator,cfOperatorMatch
+
 " Loops
-syn keyword cfLoop          for do while
+syn keyword cfRepeat        for in while do
+
+" Branches
+syn keyword	cfBranch        break switch case default try catch continue finally
 
 " CF Functions
 syn keyword cfFunctions     abs acos addsoaprequestheader addsoapresponseheader ajaxlink ajaxonload
@@ -96,37 +119,27 @@ if version >= 508
     command -nargs=+ HiLink hi def link <args>
   endif
 
-  " Comments
-  HiLink cfComment        comment
-  HiLink cfLineComment    comment
+  HiLink cfComment        Comment
+  HiLink cfLineComment    Comment
   HiLink cfCommentTodo    Todo
-  " JavaDoc syntax
   HiLink cfJavaDocAttr    StorageClass
   HiLink cfJavaDocVal     Function
-
-  " Definitions
   HiLink cfComponent      StorageClass
   HiLink cfFunction       Function
   HiLink cfBraces         Function
+  HiLink cfStatement      Statement
   HiLink cfFunctionScope  StorageClass
   HiLink cfType           Type
-
-  " Statements
-  HiLink cfStatement      Statement
-
-  " Strings
   HiLink cfStringD        String
   HiLink cfStringS        String
   HiLink cfHash           PreProc
   HiLink cfBoolean        Boolean
-
-  " Scopes
   HiLink cfScope          Keyword
-
-  " Conditional
   HiLink cfCondition      Conditional
-  " Loop
-  HiLink cfLoop           Conditional
+  HiLink cfOperator       Operator
+  HiLink cfOperatorMatch  Operator
+  HiLink cfRepeat         Repeat
+  HiLink cfBranch         Conditional
 
   " CF Functions
   HiLink cfFunctions      Function
