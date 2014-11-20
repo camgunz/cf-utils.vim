@@ -1,5 +1,9 @@
 # CF Utils for Vim
 
+I've forked davejlong's CF Utils to match up some syntax differences between cfscript and cfml.  I make no promises about anything besides syntax highlighting.
+
+What follows is the original README.md.
+
 ## Current Status
 
 I am no longer developing CFML applications and thus I can't dedicate time anymore to keep CF Utils up to date.  I will still merge Pull Requests that improve the plugin but will not be working on new features or fixing issues myself.
